@@ -182,11 +182,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .btn--nav .btn__label{display:inline}
 }
 
+/* NOTE: keep this header free of backdrop-filter/filter/transform —
+   any of those creates a containing block for the fixed mobile
+   nav panel and breaks its full-screen positioning. */
 .site-header{
   position:sticky;top:0;z-index:100;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:saturate(1.4) blur(8px);
-  -webkit-backdrop-filter:saturate(1.4) blur(8px);
+  background:var(--white);
   border-bottom:1px solid var(--line);
   transition:box-shadow .25s var(--ease);
 }
@@ -750,9 +751,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   -webkit-backdrop-filter:blur(8px);
   box-shadow:0 -12px 30px -12px rgba(2,18,58,.5);
   transform:translateY(110%);
-  transition:transform .35s var(--ease);
+  transition:transform .35s var(--ease),visibility .35s;
 }
 .call-bar.is-visible{transform:none}
+body.nav-open .call-bar{
+  transform:translateY(110%);
+  visibility:hidden;
+}
 .call-bar .btn{min-height:52px;font-size:15px;padding-inline:14px}
 .call-bar__mail{
   display:inline-flex;align-items:center;justify-content:center;

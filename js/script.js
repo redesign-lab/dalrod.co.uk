@@ -23,7 +23,14 @@
       navToggle.setAttribute("aria-expanded", String(open));
       navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     }
+    // Lock background scroll on <html> and <body> (iOS Safari needs both)
+    document.documentElement.style.overflow = open ? "hidden" : "";
     body.style.overflow = open ? "hidden" : "";
+
+    if (open && siteNav) {
+      var firstLink = siteNav.querySelector("a");
+      if (firstLink) firstLink.focus({ preventScroll: true });
+    }
   }
 
   if (navToggle && siteNav) {
@@ -31,9 +38,9 @@
       setNav(!body.classList.contains("nav-open"));
     });
 
-    // Close on link tap
+    // Close on link tap — or on a tap of the panel background itself
     siteNav.addEventListener("click", function (e) {
-      if (e.target.closest("a")) setNav(false);
+      if (e.target === siteNav || e.target.closest("a")) setNav(false);
     });
 
     // Close on Escape
